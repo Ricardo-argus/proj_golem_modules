@@ -30,13 +30,26 @@ app_ui <- function(request) {
         sidebarMenu(
           menuItem("Visão Geral", tabName = "overview", icon = icon("dashboard")),
           menuItem("Dados Completos", tabName = "raw_data", icon = icon("table")),
-          menuItem("Contato", tabName = "reports", icon = icon("envelope"))
+          menuItem("Contato", tabName = "reports", icon = icon("envelope")),
+          menuItem("Glossário", tabName = "gloss", icon = icon("book"))
         ),
 
         hr(),
 
         #Call module for filters
-        mod_filtros_ui("filtros_1")
+        mod_filtros_ui("filtros_1"),
+
+        hr(),
+
+        br(), br(),
+
+        tags$div(
+          style = "color: white; background-color: #A9A9A9; padding: 15px; border-radius: 10px; text-align: center;",
+          icon("project-diagram"),
+          tags$h4("RShiny Golem Application Project"),
+          tags$p("Developed by Hernandes"),
+          tags$p("Guarulhos 2025")
+        )
       ),
 
       dashboardBody(

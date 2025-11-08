@@ -10,7 +10,7 @@
 #' @noRd
 app_server <- function( input, output, session ) {
 
-  # --- 1. Conexão Segura com o Banco de Dados (Permanece aqui) ---
+  #Database connection
   tryCatch(
     {
       db_config <- app_config("database")
@@ -33,7 +33,7 @@ app_server <- function( input, output, session ) {
     pool::poolClose(con)
   })
 
-  # --- 2. MÓDULOS ---
+  #MODULES
 
   # Chama o módulo de filtros e armazena os filtros reativos que ele RETORNA
   filtros_selecionados <- mod_filtros_server("filtros_1", con = con)
