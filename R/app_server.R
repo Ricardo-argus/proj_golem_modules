@@ -94,6 +94,5 @@ app_server <- function( input, output, session ) {
   mod_dados_brutos_server("dados_brutos_1",
                           dados_filtrados = dadosFiltrados)
 
-  # FIM DO APP_SERVER
-  # Note como ele ficou limpo: conecta, chama módulos, prepara dados, chama mais módulos.
+
 }

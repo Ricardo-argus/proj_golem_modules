@@ -71,10 +71,10 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados){
 
     # --- KPIs (ValueBoxes) ---
     output$total_bolsas <- renderValueBox({
-      # Usamos o reativo passado como argumento
+
       num <- nrow(dados_filtrados())
 
-      # Pega os filtros para o subtítulo
+
       filtros <- filtros_selecionados()
 
       filtros_ativos <- c()

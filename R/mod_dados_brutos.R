@@ -23,15 +23,15 @@ mod_dados_brutos_ui <- function(id){
             DT::dataTableOutput(ns("PROUNI"))
 
           ),
-            # Aba 2: Exemplo de outra aba
-            tabPanel(
-              title = "BOLSA FAMÍLIA", # Título da segunda aba
-              icon = icon("table"), # Ícone opcional
 
-              # Você pode adicionar outros outputs aqui, como gráficos ou resumos
+            tabPanel(
+              title = "BOLSA FAMÍLIA",
+              icon = icon("table"),
+
+
               h4("Tabela a ser Preenchida."),
               p("Adicionar dados dos Beneficiários do Bolsa Família."),
-              verbatimTextOutput(ns("resumo_exemplo")) # Exemplo de novo output
+              verbatimTextOutput(ns("resumo_exemplo"))
             ),
 
           tabPanel(

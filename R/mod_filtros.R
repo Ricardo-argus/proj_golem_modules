@@ -4,7 +4,7 @@
 #' @param id O ID interno do Shiny para este módulo.
 #' @import shiny
 #' @noRd
-mod_filtros_ui <- function(id){
+ mod_filtros_ui <- function(id){
   ns <- NS(id)
   tagList(
     selectInput(ns("ano_filter"), "Ano de Concessão:",
