@@ -8,41 +8,25 @@
 #' @import RMariaDB
 #' @import DBI
 #' @noRd
+
+#Módulo de conexão para o BD
+
 app_server <- function( input, output, session ) {
-
-  #Database connection
-  tryCatch(
-    {
-      db_config <- app_config("database")
-    },
-    error = function(e) {
-      stop(paste("Erro fatal ao carregar golem-config.yml:", e$message))
-    }
-  )
-
-  con <- pool::dbPool(
-    drv = RMariaDB::MariaDB(),
-    host = db_config$host,
-    port = db_config$port,
-    user = db_config$user,
-    password = db_config$password,
-    dbname = db_config$dbname
-  )
+  con <- mod_db_pool_init()
 
   session$onSessionEnded(function() {
-    pool::poolClose(con)
+    mod_db_pool_teardown(con)
   })
 
-  #MODULES
 
   # Chama o módulo de filtros e armazena os filtros reativos que ele RETORNA
   filtros_selecionados <- mod_filtros_server("filtros_1", con = con)
 
 
-  # --- 3. DADOS REATIVOS (Permanece aqui) ---
+  # --- 3. DADOS REATIVOS
 
   dadosCompletos <- reactive({
-    # A query para carregar TODOS os dados
+    # query para carregar TODOS os dados
     query <- "
        SELECT
          d.id_bolsista, d.ANO_CONCESSAO_BOLSA, d.SEXO_BENEFICIARIO, d.RACA_BENEFICIARIO,
@@ -134,7 +118,7 @@ app_server <- function( input, output, session ) {
     data
   })
 
-  # --- 4. CHAMADA DOS MÓDULOS DE CONTEÚDO ---
+  #  CHAMADA DOS MÓDULOS DE CONTEÚDO
 
   # Passa os dados filtrados E os filtros selecionados para o módulo de overview
   mod_overview_server("overview_1",
