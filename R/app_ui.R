@@ -20,7 +20,7 @@ app_ui <- function(request) {
             height = "40px",
             style = "vertical-align: middle; margin-right: 10px;"
           ),
-          "PROJETOS"
+          "PROGRAMAS"
         ),
         titleWidth = 400
       ),
