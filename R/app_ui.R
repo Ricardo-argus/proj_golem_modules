@@ -62,6 +62,17 @@ app_ui <- function(request) {
       ),
 
       dashboardBody(
+        tags$head(
+          tags$style(HTML("
+      .box.box-solid.box-primary > .box-header {
+        background-color: #778899 !important;
+        color: black !important;
+      }
+      .box.box-solid.box-primary {
+        border: 1px solid #4682B4 !important;
+      }
+    "))
+        ),
         tagList(
           tabItems(
             tabItem(tabName = "overview", mod_overview_ui("overview_1")),
@@ -69,11 +80,11 @@ app_ui <- function(request) {
           ),
           fluidRow(
             column(width = 12, utils_footer())
-            )
           )
         )
       )
     )
+  )
 }
 
 

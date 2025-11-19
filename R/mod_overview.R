@@ -10,7 +10,18 @@ mod_overview_ui <- function(id){
   ns <- NS(id)
   tagList(
     fluidRow(
-      # Todos os outputs precisam do 'ns()'
+      tags$head(
+        tags$style(HTML("
+      .nav-tabs > li > a {
+        background-color: #FFFFF0;
+        color: #1C1C1C;
+      }
+      .nav-tabs > li.active > a {
+        background-color: #000000 !important;
+        color: white !important;
+      }
+    "))
+      ),
       tabsetPanel(
         tabPanel(
           title = "PROUNI",
