@@ -20,6 +20,22 @@ mod_dados_brutos_ui <- function(id){
             title = "PROUNI",
             icon = icon("table"),
 
+            fluidRow(
+              column(4,
+            selectInput(ns("uf"), "Selecione a UF: ", choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+                                                                  "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                                                                  "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
+                        selected = "Todos"
+              )
+            ),
+
+              column(4,
+                     selectInput(ns("raca"), "Raça do Beneficiário: ", choices = c("Todas","Branca", "Parda", "Preta", "Amarela", "Nao Informada", "Indigena"),
+                                 selected = "Todas"
+                    )
+                  )
+                ),
+
             DT::dataTableOutput(ns("PROUNI"))
 
           ),
@@ -27,6 +43,7 @@ mod_dados_brutos_ui <- function(id){
             tabPanel(
               title = "BOLSA FAMÍLIA",
               icon = icon("table"),
+
               DT::dataTableOutput(ns("bolsafamilia")),
             ),
 
@@ -60,9 +77,19 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf){
       df <- dados_filtrados()
       req(nrow(df) > 0)
 
+      df_filtrado <- df
+
+      if(input$uf != "Todos"){
+        df_filtrado <- df_filtrado %>% filter(UF_BENEFICIARIO == input$uf)
+      }
+
+      if(input$raca != "Todas"){
+        df_filtrado <- df_filtrado %>% filter(RACA_BENEFICIARIO == input$raca)
+      }
+
 
       DT::datatable(
-        df,
+        df_filtrado,
         filter = 'top',
         options = list(
           pageLength = 10,
@@ -90,9 +117,11 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf){
       )
     })
 
+
     output$bolsafamilia <- DT::renderDataTable({
       df <- dados_bf()
       req(nrow(df) > 0)
+
       DT::datatable(
         df,
         filter = 'top',
