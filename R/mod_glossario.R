@@ -42,8 +42,3 @@ mod_glossario_server <- function(id){
   })
 }
 
-## To be copied in the UI
-# mod_glossario_ui("glossario_1")
-
-## To be copied in the server
-# mod_glossario_server("glossario_1")
