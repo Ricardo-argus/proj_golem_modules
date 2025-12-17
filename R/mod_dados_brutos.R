@@ -45,14 +45,31 @@ mod_dados_brutos_ui <- function(id){
 
             fluidRow(
               column(6,
+                  div(style = "max-height: 350px; overflow-y: auto;",
                      selectizeInput(ns("id_bolsista"), "Selecione o Id do Bolsista:", choices = NULL)
+                        )
                      ),
               column(6,
-                     selectizeInput(ns("novo_turno"), "Novo Turno:", choices = c("MATUTINO", "VESPERTINO", "NOTURNO", "CURSO A DISTANCIA"))
+                  div(style = "max-height: 350px; overflow-y: auto;",
+                     selectizeInput(ns("novo_turno"), "Novo Turno:", choices = c("MATUTINO", "VESPERTINO", "NOTURNO", "CURSO A DISTANCIA"),
+                                    options = list( selectOnTab = TRUE,   # permite selecionar ao usar Tab
+                                                    openOnFocus = TRUE,   # abre automaticamente ao focar
+                                                    closeAfterSelect = TRUE # fecha após escolher
+                                    )
+                                  )
                      )
+              )
             ),
-            actionButton(ns("atualizar_turno"), "Atualizar Turno", icon = icon("sync"), class = "btn-primary")
+            actionButton(ns("atualizar_turno"), "Atualizar Turno", icon = icon("sync"), class = "btn-primary"),
 
+            tags$style(HTML("
+                .selectize-dropdown-content {
+                  max-height: 300px;
+                  overflow-y: auto;
+                  background-color: white;
+                  color: black;
+                }"
+                            )),
           ),
 
             tabPanel(
@@ -147,7 +164,9 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, co
 
     #atualiza tabela prouni
     observe({
+      req(nrow(dados_filtrados()) > 0)
       ids <- dados_filtrados()$id_bolsista
+      ids<- unique(na.omit(ids))
       updateSelectizeInput(session, "id_bolsista", choices = ids, server=TRUE)
     })
 
