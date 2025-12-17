@@ -27,6 +27,27 @@ mod_overview_ui <- function(id){
           title = "PROUNI",
           icon = icon("chart-line"),
 
+          fluidRow(
+            valueBoxOutput(ns("total_bolsas"), width = 4),
+            valueBoxOutput(ns("total_universidades"), width = 4),
+            valueBoxOutput(ns("percentual_integral"), width = 4)
+          ),
+
+          div(style = "overflow-x: auto;",
+              fluidRow(
+                box(
+                  title = "Distribuição por Raça/Cor", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("bolsas_por_raca"))
+                ),
+                box(
+                  title = "Distribuição por Modalidade", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("bolsas_por_modalidade"))
+                )
+              )
+          ),
+
           DT::dataTableOutput(ns("PROUNI"))
 
         ),
@@ -40,25 +61,7 @@ mod_overview_ui <- function(id){
           title = "LUZ PARA TODOS",
           icon = icon("chart-line"),
         )
-      ),
-      valueBoxOutput(ns("total_bolsas"), width = 4),
-      valueBoxOutput(ns("total_universidades"), width = 4),
-      valueBoxOutput(ns("percentual_integral"), width = 4)
-    ),
-
-    div(style = "overflow-x: auto;",
-        fluidRow(
-          box(
-            title = "Distribuição por Raça/Cor", status = "primary", solidHeader = TRUE,
-            collapsible = TRUE, width = 6,
-            plotly::plotlyOutput(ns("bolsas_por_raca"))
-          ),
-          box(
-            title = "Distribuição por Modalidade", status = "primary", solidHeader = TRUE,
-            collapsible = TRUE, width = 6,
-            plotly::plotlyOutput(ns("bolsas_por_modalidade"))
-          )
-        )
+      )
     )
   )
 }

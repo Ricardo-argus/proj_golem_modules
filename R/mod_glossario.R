@@ -14,21 +14,26 @@ mod_glossario_ui <- function(id) {
       tabsetPanel(
         tabPanel(
           title = "PROUNI",
-          icon = icon("book")
+          icon = icon("book"),
+          h4("Programa Universidade para Todos"),
+          p("Oferece bolsas de estudo em instituições privadas para estudantes de baixa renda.")
         ),
 
         tabPanel(
           title = "BOLSA FAMILIA",
-          icon = icon("book")
+          icon = icon("book"),
+          h4("Programa Bolsa Família"),
+          p("Transferência de renda para famílias em situação de pobreza e extrema pobreza.")
         ),
 
         tabPanel(
           title = "LUZ PARA TODOS",
-          icon = icon("book")
+          icon = icon("book"),
+          h4("Programa Luz Para Todos"),
+          p("Leva energia elétrica a comunidades rurais e regiões isoladas.")
         )
       )
     )
-
   )
 }
 

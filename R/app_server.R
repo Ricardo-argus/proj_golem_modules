@@ -129,7 +129,8 @@ app_server <- function( input, output, session ) {
   mod_dados_brutos_server("dados_brutos_1",
                           dados_filtrados = dadosFiltrados,
                           dados_luz = dadosluzpt,
-                          dados_bf = dadosbolsafamilia)
+                          dados_bf = dadosbolsafamilia,
+                          con = con)
 
   mod_contato_mod_server("contatos_1")
 

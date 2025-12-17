@@ -33,10 +33,25 @@ mod_dados_brutos_ui <- function(id){
                      selectInput(ns("raca"), "Raça do Beneficiário: ", choices = c("Todas","Branca", "Parda", "Preta", "Amarela", "Nao Informada", "Indigena"),
                                  selected = "Todas"
                     )
+                  ),
+              column(4,
+                   selectInput(ns("ano"), "Ano da Bolsa: ", choices = c(2018,2019,2020),
+                               selected = "2020"
+                   )
                   )
                 ),
 
-            DT::dataTableOutput(ns("PROUNI"))
+            DT::dataTableOutput(ns("PROUNI")),
+
+            fluidRow(
+              column(6,
+                     selectizeInput(ns("id_bolsista"), "Selecione o Id do Bolsista:", choices = NULL)
+                     ),
+              column(6,
+                     selectizeInput(ns("novo_turno"), "Novo Turno:", choices = c("MATUTINO", "VESPERTINO", "NOTURNO", "CURSO A DISTANCIA"))
+                     )
+            ),
+            actionButton(ns("atualizar_turno"), "Atualizar Turno", icon = icon("sync"), class = "btn-primary")
 
           ),
 
@@ -44,12 +59,41 @@ mod_dados_brutos_ui <- function(id){
               title = "BOLSA FAMÍLIA",
               icon = icon("table"),
 
+              fluidRow(
+                column(4,
+                       selectInput(ns("estado"), "Selecione o Estado: ", choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+                                                                             "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                                                                             "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
+                                   selected = "Todos"
+                  )
+                )
+              ),
+
               DT::dataTableOutput(ns("bolsafamilia")),
             ),
 
             tabPanel(
             title = "Luz Para Todos",
             icon = icon("table"),
+
+            fluidRow(
+              column(4,
+                     selectInput(ns("estado"), "Selecione o Estado: ", choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+                                                                               "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                                                                               "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
+                                 selected = "Todos"
+                )
+              ),
+
+              column(4,
+                     selectInput(ns("mes_atendimento"), "Selecione o mês de atendimento: ", choices = c("AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
+                                                                                   "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
+                                                                                   "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO")
+
+                  )
+              )
+            ),
+
             DT::dataTableOutput(ns("luzpt"))
 
           ),
@@ -69,7 +113,7 @@ mod_dados_brutos_ui <- function(id){
 #' @import DT
 #' @import dplyr
 #' @noRd
-mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf){
+mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, con){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -100,6 +144,26 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf){
         class = "stripe hover"
       )
     })
+
+    #atualiza tabela prouni
+    observe({
+      ids <- dados_filtrados()$id_bolsista
+      updateSelectizeInput(session, "id_bolsista", choices = ids, server=TRUE)
+    })
+
+    observeEvent(input$atualizar_turno, {
+      req(input$id_bolsista, input$novo_turno)
+
+
+          query <- sprintf("UPDATE prouni_bolsas.turno_bolsa SET TURNO_BOLSA = '%s' WHERE id_bolsista = %s",
+                           input$novo_turno, input$id_bolsista
+          )
+
+          DBI::dbExecute(con,query)
+
+          showNotification("Turno atualizado com sucesso!", type = 'message')
+    })
+
 
     output$luzpt <- DT::renderDataTable({
       df <- dados_luz()
