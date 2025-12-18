@@ -83,6 +83,11 @@ mod_dados_brutos_ui <- function(id){
                                                                              "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
                                    selected = "Todos"
                   )
+                ),
+                column(4,
+                       selectInput(ns("estado"), "Selecione o ano de concessão do beneficio: ", choices = c(2023,2024,2025),
+                                   selected = "Todos"
+                       )
                 )
               ),
 
@@ -103,9 +108,7 @@ mod_dados_brutos_ui <- function(id){
               ),
 
               column(4,
-                     selectInput(ns("mes_atendimento"), "Selecione o mês de atendimento: ", choices = c("AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
-                                                                                   "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-                                                                                   "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO")
+                     selectInput(ns("mes_atendimento"), "Selecione o mês do atendimento: ", choices = c("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro")
 
                   )
               )
