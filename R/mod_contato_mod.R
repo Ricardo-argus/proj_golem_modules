@@ -15,27 +15,25 @@ mod_contato_mod_ui <- function(id) {
       column(12, align = "center",
              h2("Fale Conosco")
       ),
-      column(12, offset = 2,
-             p("Este dashboard foi desenvolvido com o objetivo de promover transparência e facilitar o acesso a dados sobre programas sociais brasileiros, como PROUNI, Bolsa Família e Luz Para Todos."),
+      column(10, offset = 1,
+             p("Este dashboard é parte de um projeto pessoal que desenvolvi com o objetivo de promover a transparência e facilitar o acesso a dados sobre programas sociais brasileiros, como PROUNI, Bolsa Família e Luz Para Todos."),
+             p("A ideia surgiu da minha paixão por visualização de dados e pelo potencial que a tecnologia tem de aproximar as pessoas das políticas públicas que impactam suas vidas. Este trabalho também faz parte do meu portfólio e será divulgado no LinkedIn como uma forma de compartilhar conhecimento e abrir portas para novas conexões."),
              actionButton(ns("mostrar_info"), "Mostrar mais informações"),
              uiOutput(ns("info_adicional")),
              br(),
-             p("Telefone? "),
-             p("E-mail: ", a("contato@programassociais.gov.br", href = "mailto:contato@programassociais.gov.br")),
-             p("Site PROUNI: ", a("www.programassociais.gov.br", href = "https://www.programassociais.gov.br", target = "_blank")),
-             p("Site BOLSA FAMILIA: ", a("www.programassociais.gov.br", href = "https://www.programassociais.gov.br", target = "_blank")),
-             p("Site LUZ PARA TODOS: ", a("www.programassociais.gov.br", href = "https://www.programassociais.gov.br", target = "_blank"))
-      )
+             h3("Envie sua mensagem"),
+             p("Use o formulário abaixo para me mandar uma mensagem diretamente. Fico à disposição para conversar!")
     ),
 
     br(), br(),
 
     fluidRow(
-      column(6, offset = 2,
-             textInput(ns("nome"), "Nome"),
-             textInput(ns("email"), "Email"),
-             textAreaInput(ns("mensagem"), "Mensagem", "", rows = 5),
+      column(10, offset = 1,
+             textInput(ns("nome"), "Nome", width = "50%"),
+             textInput(ns("email"), "Email", width = "50%"),
+             textAreaInput(ns("mensagem"), "Mensagem", "", rows = 5, width = "40%"),
              actionButton(ns("enviar"), "Enviar")
+        )
       )
     )
   )
