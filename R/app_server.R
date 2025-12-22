@@ -127,7 +127,8 @@ app_server <- function( input, output, session ) {
   # Passa os dados filtrados E os filtros selecionados para o módulo de overview
   mod_overview_server("overview_1",
                       dados_filtrados = dadosFiltrados,
-                      filtros_selecionados = filtros_selecionados)
+                      filtros_selecionados = filtros_selecionados,
+                      con = con)
 
   # Passa (apenas) os dados filtrados para o módulo de tabela
   mod_dados_brutos_server("dados_brutos_1",

@@ -55,11 +55,59 @@ mod_overview_ui <- function(id){
         tabPanel(
           title = "BOLSA FAMÍLIA",
           icon = icon("chart-line"),
+
+          fluidRow(
+            valueBoxOutput(ns("total_familias"), width = 4), #quantidade de municipios analisados
+            valueBoxOutput(ns("total_brc"), width = 4),   # estado com maior quantidade total de beneficios renda e cidadania
+            valueBoxOutput(ns("min_municipio"), width = 4) # municipio com menor quantidade de beneficios recebidos
+          ),
+
+          div(style = "overflow-x: auto;",
+              fluidRow(
+                box(
+                  title = "Top 5 Municipios com mais Beneficiários do BPI", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("bpi_topfive"))
+                ),
+                box(
+                  title = "10 Estados com mais Beneficiários do BVG", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("bvg_topten"))
+                )
+              )
+          ),
+
+          DT::dataTableOutput(ns("BOLSA FAMILIA"))
+
         ),
 
         tabPanel(
           title = "LUZ PARA TODOS",
           icon = icon("chart-line"),
+
+          fluidRow(
+            valueBoxOutput(ns("total_domicilios"), width = 4), #quantidade de domicilios analisados
+            valueBoxOutput(ns("total_estadoluzpt"), width = 4),   # estado com maior quantidade total de beneficiarios
+            valueBoxOutput(ns("maior_anoluzpt"), width = 4) # Ano com mais beneficiarios atendidos
+          ),
+
+          div(style = "overflow-x: auto;",
+              fluidRow(
+                box(
+                  title = "Top 5 Estados com menos Beneficiários", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("luzpt_topfive"))
+                ),
+                box(
+                  title = "Distribuição por Tipo de Programa", status = "primary", solidHeader = TRUE,
+                  collapsible = TRUE, width = 6,
+                  plotly::plotlyOutput(ns("tipo_programa_luzpt"))
+                )
+              )
+          ),
+
+          DT::dataTableOutput(ns("LUZ PARA TODOS"))
+
         )
       )
     )
@@ -79,7 +127,7 @@ mod_overview_ui <- function(id){
 #' @import dplyr
 #' @import magrittr
 #' @noRd
-mod_overview_server <- function(id, dados_filtrados, filtros_selecionados){
+mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -204,6 +252,64 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados){
           plot_bgcolor = "rgba(0,0,0,0)",  # Fundo do gráfico transparente
           legend = list(font = list(color = "white")) # Cor do texto da legenda
         )
+    })
+
+    # KPI Bolsa Familia
+
+    #VALUEBOXES
+
+    output$total_familias <- renderValueBox({
+      total <- fct_get_bolsafm(con)$total_familias
+      valueBox(
+        value = total[[1]],
+        subtitle = "Municipios Analisados",
+        icon = icon("home"),
+        color = "purple"
+      )
+    })
+
+    output$total_brc <- renderValueBox({
+      total <- fct_get_bolsafm(con)$total_brc
+      valueBox(
+        value = total[[1]],
+        subtitle = "Estado com Mais Beneficio Complementar",
+        icon = icon("home"),
+        color = "blue"
+      )
+    })
+
+
+
+    #inserir graficos get_luz_pt e gráficos bolsafm
+
+    output$total_domicilios <- renderValueBox({
+      total <- fct_get_luzpt(con)$total_domicilios
+      valueBox(
+        value = total[[1]],
+        subtitle = "Total de Domicilios Analisados",
+        icon = icon("home"),
+        color = "purple"
+      )
+    })
+
+    output$total_estadoluzpt <- renderValueBox({
+      total <- fct_get_luzpt(con)$total_estadoluzpt
+      valueBox(
+        value = total[[1]],
+        subtitle = "Estado com Mais Domicilios atendidos",
+        icon = icon("home"),
+        color = "blue"
+      )
+    })
+
+    output$maior_anoluzpt <- renderValueBox({
+      total <- fct_get_luzpt(con)$maior_anoluzpt
+      valueBox(
+        value = total[[1]],
+        subtitle = "Ano com Mais Domicilios Atendidos",
+        icon = icon("home"),
+        color = "yellow"
+      )
     })
 
   })
