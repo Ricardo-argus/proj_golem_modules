@@ -65,7 +65,7 @@ mod_overview_ui <- function(id){
           div(style = "overflow-x: auto;",
               fluidRow(
                 box(
-                  title = "Top 5 Municipios com mais Beneficiários do BPI", status = "primary", solidHeader = TRUE,
+                  title = "Top 5 Estados com mais Beneficiários do BPI", status = "primary", solidHeader = TRUE,
                   collapsible = TRUE, width = 6,
                   plotly::plotlyOutput(ns("bpi_topfive"))
                 ),
@@ -262,7 +262,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       total <- fct_get_bolsafm(con)$total_familias
       valueBox(
         value = total[[1]],
-        subtitle = "Municipios Analisados",
+        subtitle = "Quantidade de Municipios Analisados",
         icon = icon("home"),
         color = "purple"
       )
@@ -273,8 +273,8 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       valueBox(
         value = total[[1]],
         subtitle = "Estado com Mais Beneficio Complementar",
-        icon = icon("home"),
-        color = "blue"
+        icon = icon("arrow-up"),
+        color = "green"
       )
     })
 
@@ -444,8 +444,8 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       valueBox(
         value = total[[1]],
         subtitle = "Estado com Mais Domicilios atendidos",
-        icon = icon("home"),
-        color = "blue"
+        icon = icon("arrow-up"),
+        color = "green"
       )
     })
 
@@ -455,8 +455,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
         value = total[[1]],
         subtitle = "Ano com Mais Domicilios Atendidos",
         icon = icon("home"),
-        color = "yellow"
-      )
+        color = "yellow")
     })
 
     output$luzpt_topfive <- plotly::renderPlotly({
@@ -475,13 +474,33 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       p <- ggplot(df, aes(x = reorder(estado, total_domicilios),
                           y = total_domicilios,
                           fill = estado)) +
-        geom_col(show.legend = FALSE) +
+        geom_col(width = 0.6, show.legend = FALSE) +  # remove legenda de cores
+        geom_text(aes(label = format(total_domicilios, big.mark = ".")),
+                  hjust = -0.1, color = "white", size = 4) +
         coord_flip() +
         labs(title = "Top 5 Estados com Menos Beneficiários",
-             x = "Estado", y = "Total de Domicílios") +
-        theme_minimal()
+             x = "Estado", y = "Total de Domicílios") +  # mantém eixo Y com nomes dos estados
+        theme_minimal(base_size = 14) +
+        theme(
+          plot.title = element_text(hjust = 0.5, size = 14, color = "white", face = "bold"),
+          axis.title = element_text(color = "white"),
+          axis.text.y = element_text(color = "white"),  # mantém nomes dos estados
+          axis.text.x = element_text(color = "white"),
+          plot.background = element_rect(fill = "transparent", color = NA),
+          panel.background = element_rect(fill = "transparent", color = NA),
+          panel.grid.major.y = element_line(color = "#555555"),
+          panel.grid.major.x = element_line(color = "#333333"),
+          panel.grid.minor = element_blank()
+        )
 
-      plotly::ggplotly(p)
+      plotly::ggplotly(p) %>%
+        plotly::layout(
+          template = "plotly_dark",
+          paper_bgcolor = "rgba(0,0,0,0)",
+          plot_bgcolor = "rgba(0,0,0,0)",
+          margin = list(l = 150, r = 50, t = 80, b = 60),
+          showlegend = FALSE  # remove legenda abaixo do gráfico
+        )
     })
 
     output$tipo_programa_luzpt <- plotly::renderPlotly({
@@ -509,7 +528,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
           plot.background = element_rect(fill = "transparent", color = NA),
           panel.background = element_rect(fill = "transparent", color = NA),
           panel.grid.major.x = element_blank(),              # remove grades verticais
-          panel.grid.major.y = element_line(color = "#555555"), # grades horizontais suaves
+          panel.grid.major.y = element_line(color = "#555555"),
           panel.grid.minor = element_blank()
         )
 
