@@ -261,7 +261,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
     output$total_familias <- renderValueBox({
       total <- fct_get_bolsafm(con)$total_familias
       valueBox(
-        value = total[[1]],
+        value = format(total[[1]], big.mark = ".", decimal.mark = ","),
         subtitle = "Quantidade de Municipios Analisados",
         icon = icon("home"),
         color = "purple"
@@ -340,20 +340,19 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       p <- ggplot(df, aes(x = reorder(estado, total_bpi),
                           y = total_bpi,
                           fill = estado)) +
-        geom_col(width = 0.6) +
+        geom_col(width = 0.6, show.legend = FALSE) +  # remove legenda de cores
         geom_text(aes(label = format(total_bpi, big.mark = ".")),
                   hjust = -0.1, color = "white", size = 4) +
         coord_flip() +
+        scale_y_continuous(labels = scales::label_comma(big.mark = ".", decimal.mark = ",")) +
         labs(title = "Top 5 Estados com Mais Beneficiários\nPrimeira Infância (BPI)",
-             x = "Estado", y = "Total de Beneficiários", fill = "Estado") +
+             x = "Estado", y = "Total de Beneficiários") +  # mantém apenas eixo Y
         theme_minimal(base_size = 14) +
         theme(
           plot.title = element_text(hjust = 0.5, size = 14, color = "white", face = "bold"),
           axis.title = element_text(color = "white"),
-          axis.text = element_text(color = "white"),
-          legend.position = "bottom",
-          legend.text = element_text(color = "white"),
-          legend.title = element_text(color = "white"),
+          axis.text.y = element_text(color = "white"),  # mantém nomes dos estados
+          axis.text.x = element_text(color = "white"),
           plot.background = element_rect(fill = "transparent", color = NA),
           panel.background = element_rect(fill = "transparent", color = NA),
           panel.grid.major.y = element_line(color = "#555555"),
@@ -367,8 +366,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
           paper_bgcolor = "rgba(0,0,0,0)",
           plot_bgcolor = "rgba(0,0,0,0)",
           margin = list(l = 150, r = 50, t = 80, b = 60),
-          legend = list(orientation = "h", x = 0.5, xanchor = "center",
-                        font = list(color = "white"))
+          showlegend = FALSE  # remove legenda abaixo do gráfico
         )
     })
 
@@ -391,12 +389,13 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       p <- ggplot(df, aes(x = reorder(estado, total_bvg),
                           y = total_bvg,
                           fill = estado)) +
-        geom_col(width = 0.6) +
+        geom_col(width = 0.6, show.legend = FALSE) +
         geom_text(aes(label = format(total_bvg, big.mark = ".")),
                   hjust = -0.1, color = "white", size = 4) +
         coord_flip() +
+        scale_y_continuous(labels = scales::label_comma(big.mark = ".", decimal.mark = ",")) +
         labs(title = "Top 10 Estados com Mais Beneficiários\nBenefício Variável Familiar (BVG)",
-             x = "Estado", y = "Total de Beneficiários", fill = "Estado") +
+             x = "Estado", y = "Total de Beneficiários") +
         theme_minimal(base_size = 14) +
         theme(
           plot.title = element_text(hjust = 0.5, size = 14, color = "white", face = "bold"),
@@ -418,8 +417,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
           paper_bgcolor = "rgba(0,0,0,0)",
           plot_bgcolor = "rgba(0,0,0,0)",
           margin = list(l = 150, r = 50, t = 80, b = 60),
-          legend = list(orientation = "h", x = 0.5, xanchor = "center",
-                        font = list(color = "white"))
+          showlegend = FALSE
         )
     })
 

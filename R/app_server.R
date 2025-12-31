@@ -122,18 +122,6 @@ app_server <- function( input, output, session ) {
     data
   })
 
-  #queries plots
-
-  dadosluzpt <- reactive({
-    dbGetQuery(con, "SELECT eb.estado, SUM(db.qtd_domicilios) as total_domicilios FROM luz_domicilios_beneficiarios db
-                          LEFT JOIN luz_estado_beneficiarios eb on db.id_beneficiarios = eb.id_beneficiarios
-                          GROUP BY eb.estado
-                          ORDER BY total_domicilios ASC
-                          LIMIT 5;")
-  })
-
-
-
   #  CHAMADA DOS MÓDULOS DE CONTEÚDO
 
   # Passa os dados filtrados E os filtros selecionados para o módulo de overview
