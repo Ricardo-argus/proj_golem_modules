@@ -55,7 +55,6 @@ mod_contato_mod_server <- function(id,con){
     output$info_adicional <- renderUI({
       if (estado$mostrar) {
         wellPanel(
-          h4("Informações adicionais"),
           p("Se você gostou desta iniciativa e tem interesse em colaborações, novas ideias de visualizações, ou deseja desenvolver dashboards personalizados, será um prazer conversar!"),
           p("Conecte-se comigo pelo LinkedIn: ",
             a("linkedin.com/in/ricardohernandes", href = "https://www.linkedin.com/in/ricardo-hernandes-05b93218a/", target = "_blank")),

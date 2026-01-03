@@ -1,7 +1,7 @@
 #' mod_overview UI Function
 #'
-#' @description UI para a aba de Visão Geral (KPIs e Gráficos).
-#' @param id O ID interno do Shiny para este módulo.
+#' @description UI for tab VISAO Geral
+#' @param id Intern Id for this module
 #' @import shiny
 #' @import shinydashboard
 #' @import plotly
@@ -116,10 +116,10 @@ mod_overview_ui <- function(id){
 
 #' mod_overview Server Function
 #'
-#' @description Server para a aba de Visão Geral.
-#' @param id O ID interno do Shiny para este módulo.
-#' @param dados_filtrados Um reativo com os dados já filtrados.
-#' @param filtros_selecionados Um reativo com os filtros (para o subtítulo).
+#' @description Server for tab Visao Geral
+#' @param id Intern Id for this module
+#' @param dados_filtrados a Reactive with filtered data
+#' @param filtros_selecionados a reactive for filters
 #' @import shiny
 #' @import shinydashboard
 #' @import plotly
@@ -185,7 +185,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       )
     })
 
-    # --- Gráficos (Plotly) ---
+    #plots in plotly
     output$bolsas_por_raca <- plotly::renderPlotly({
       df <- dados_filtrados()
       req(nrow(df) > 0)
@@ -195,7 +195,9 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
         na.omit()
 
       p <- ggplot(raca_counts, aes(x = reorder(RACA_BENEFICIARIO, n), y = n, fill = RACA_BENEFICIARIO)) +
-        geom_col(show.legend = FALSE) +
+        geom_col(width = 1.0, show.legend = FALSE) +
+        geom_text(aes(label = format(n, big.mark = ".")),
+                  hjust = -0.1, color = "white", size = 4)+
         coord_flip() +
         labs(title = "Distribuição por Raça/Cor\ndo Beneficiário",
              x = "", y = "Número de Bolsas") +
@@ -203,10 +205,11 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
         theme(
           plot.title = element_text(hjust = 0.5, size = 12, color = "white"),
           axis.title = element_text(color = "white"),
-          axis.text = element_text(color = "white"),
+          axis.text.y = element_text(color = "white"),
+          axis.text.x = element_text(color = "white"),
           plot.background = element_rect(fill = "transparent", color = NA),
           panel.background = element_rect(fill = "transparent", color = NA),
-          panel.grid.major = element_line(color = "#555555"), # Linhas de grade suaves
+          panel.grid.major = element_line(color = "#555555"),
           panel.grid.minor = element_blank()
         )
 
@@ -230,6 +233,8 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
 
       p <- ggplot(modalidade_counts, aes(x = MODALIDADE_ENSINO_BOLSA, y = n, fill = MODALIDADE_ENSINO_BOLSA)) +
         geom_col(show.legend = FALSE) +
+        geom_text(aes(label = format(n, big.mark = ".")),
+                  vjust = -0.5, color = "white", size = 4) +
         labs(title = "Distribuição por Modalidade\nde Ensino",
              x = "Modalidade", y = "Número de Bolsas") +
         theme_minimal(base_size = 14) +
@@ -340,7 +345,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       p <- ggplot(df, aes(x = reorder(estado, total_bpi),
                           y = total_bpi,
                           fill = estado)) +
-        geom_col(width = 0.6, show.legend = FALSE) +  # remove legenda de cores
+        geom_col(width = 0.6, show.legend = FALSE) +
         geom_text(aes(label = format(total_bpi, big.mark = ".")),
                   hjust = -0.1, color = "white", size = 4) +
         coord_flip() +
@@ -514,13 +519,21 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
       df <- dbGetQuery(con, query)
       req(nrow(df) > 0)
 
+      df$programa <- recode(df$programa,
+                            "LPT - Regioes Remotas da Amazonia Legal" = "Amazonia Legal",
+                            "LPT - Rural" = "Rural"
+      )
+
       p <- ggplot(df, aes(x = programa, y = total_por_programa, fill = programa)) +
-        geom_col(show.legend = FALSE, width = 0.6) +
+        geom_col(width = 0.6) +
+        geom_text(aes(label = format(total_por_programa, big.mark = ".")),
+                  vjust = -0.5, color = "white", size = 4) +
         labs(title = "Distribuição por Tipo de Programa",
-             x = "Programa", y = "Total de Domicílios") +
+             x = "Programa", y = "Total de Domicílios",
+             fill = NULL) +
         theme_minimal(base_size = 14) +
         theme(
-          plot.title = element_text(hjust = 0.5, size = 12, color = "white", face = "bold"),
+          plot.title = element_text(hjust = 0.5, size = 14, color = "white", face = "bold"),
           axis.title = element_text(color = "white"),
           axis.text = element_text(color = "white"),
           plot.background = element_rect(fill = "transparent", color = NA),
@@ -535,12 +548,14 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
           template = "plotly_dark",
           paper_bgcolor = "rgba(0,0,0,0)",
           plot_bgcolor = "rgba(0,0,0,0)",
-          margin = list(l = 100, r = 30, t = 60, b = 40),
-          legend = list(font = list(color = "white"))
+          legend = list(
+            orientation = "v",
+            x = 1.02,
+            y = 1,
+            font = list(color = "white", size = 12)
+          )
         )
     })
-
   })
 
 }
-

@@ -36,8 +36,8 @@ mod_dados_brutos_ui <- function(id){
               ),
               column(4,
                      selectInput(ns("ano"), "Ano da Bolsa: ",
-                                 choices = c(2018,2019,2020),
-                                 selected = "2020")
+                                 choices = c("Todos",2018,2019,2020),
+                                 selected = "Todos")
               )
             ),
 
@@ -81,15 +81,18 @@ mod_dados_brutos_ui <- function(id){
 
             fluidRow(
               column(4,
-                     selectInput(ns("estado"), "Selecione o Estado:",
-                                 choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
-                                             "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-                                             "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
+                     selectInput(ns("estado_bf"), "Selecione o Estado:",
+                                 choices = c("Todos",
+                                             "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal",
+                                             "Espirito Santo", "Goias", "Maranhao", "Mato Grosso", "Mato Grosso do Sul",
+                                             "Minas Gerais", "Pará", "Paraiba", "Parana", "Pernambuco", "Piaui",
+                                             "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul",
+                                             "Rondonia", "Roraima", "Santa Catarina", "Sao Paulo", "Sergipe", "Tocantins"),
                                  selected = "Todos")
               ),
               column(4,
                      selectInput(ns("ano_bf"), "Ano de concessão do benefício:",
-                                 choices = c(2023,2024,2025),
+                                 choices = c("Todos",2023,2024,2025),
                                  selected = "Todos")
               )
             ),
@@ -134,16 +137,25 @@ mod_dados_brutos_ui <- function(id){
 
             fluidRow(
               column(4,
-                     selectInput(ns("estado"), "Selecione o Estado:",
-                                 choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
-                                             "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-                                             "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
+                     selectInput(ns("estado_luzpt"), "Estado:",
+                                 choices = c("Todos",
+                                             "Acre", "Amapá", "Amazonas", "Bahia",
+                                             "Mato Grosso", "Mato Grosso do Sul",
+                                             "Pará",
+                                             "Rondonia", "Roraima", "Tocantins"),
                                  selected = "Todos")
               ),
               column(4,
-                     selectInput(ns("mes_atendimento"), "Selecione o mês do atendimento:",
-                                 choices = c("Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-                                             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"))
+                     selectInput(ns("mes_atendimento"), "Mês do atendimento:",
+                                 choices = c("Todos","Janeiro", "Fevereiro", "Marco", "Abril", "Maio", "Junho",
+                                             "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"),
+                                 selected = "Todos")
+              ),
+              column(4,
+                     selectInput(ns("programa_luzpt"),"Tipo de Programa:",
+                                 choices = c("Todos","LPT - Rural", "LPT - Regioes Remotas da Amazonia Legal"),
+                                 selected = "Todos")
+
               )
             ),
 
@@ -197,23 +209,27 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, co
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
+    #Filters logic for PROUNI tab
     output$PROUNI <- DT::renderDataTable({
       df <- dados_filtrados()
       req(nrow(df) > 0)
 
-      df_filtrado <- df
+      df_prouni_filtrado <- df
 
       if(input$uf != "Todos"){
-        df_filtrado <- df_filtrado %>% filter(UF_BENEFICIARIO == input$uf)
+        df_prouni_filtrado <- df_prouni_filtrado %>% filter(UF_BENEFICIARIO == input$uf)
       }
 
       if(input$raca != "Todas"){
-        df_filtrado <- df_filtrado %>% filter(RACA_BENEFICIARIO == input$raca)
+        df_prouni_filtrado <- df_prouni_filtrado %>% filter(RACA_BENEFICIARIO == input$raca)
+      }
+      if(input$ano != "Todos"){
+        df_prouni_filtrado <- df_prouni_filtrado %>% filter(ANO_CONCESSAO_BOLSA == input$ano)
       }
 
-
+      #hover when click on selected option
       DT::datatable(
-        df_filtrado,
+        df_prouni_filtrado,
         filter = 'top',
         options = list(
           pageLength = 10,
@@ -224,6 +240,68 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, co
         class = "stripe hover"
       )
     })
+
+    #Filters logic for bolsafamilia tab
+    output$bolsafamilia <- DT::renderDataTable({
+      df <- dados_bf()
+      req(nrow(df) > 0)
+
+      df_bolsafamilia_filtrado <- df
+
+      if(input$estado_bf != "Todos"){
+        df_bolsafamilia_filtrado <- df_bolsafamilia_filtrado %>% filter(estado == input$estado_bf)
+      }
+
+      if(input$ano_bf != "Todos"){
+        df_bolsafamilia_filtrado <- df_bolsafamilia_filtrado %>% filter(ano_beneficio == input$ano_bf)
+      }
+
+      #hover when click on selected option
+      DT::datatable(
+        df_bolsafamilia_filtrado,
+        filter = 'top',
+        options = list(
+          pageLength = 10,
+          scrollX = TRUE,
+          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
+        ),
+        rownames = FALSE,
+        class = "stripe hover"
+      )
+    })
+
+
+  #Filters logic for luzpt tab
+  output$luzpt <- DT::renderDataTable({
+    df <- dados_luz()
+    req(nrow(df) > 0)
+
+    df_luzpt_filtrado <- df
+
+    if(input$estado_luzpt != "Todos"){
+      df_luzpt_filtrado <- df_luzpt_filtrado %>% filter(estado == input$estado_luzpt)
+    }
+
+    if(input$mes_atendimento != "Todos"){
+      df_luzpt_filtrado <- df_luzpt_filtrado %>% filter(mes_atendimento == input$mes_atendimento)
+    }
+    if(input$programa_luzpt != "Todos"){
+      df_luzpt_filtrado <- df_luzpt_filtrado %>% filter(programa == input$programa_luzpt)
+    }
+
+    #hover when click on selected option
+    DT::datatable(
+      df_luzpt_filtrado,
+      filter = 'top',
+      options = list(
+        pageLength = 10,
+        scrollX = TRUE,
+        language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
+      ),
+      rownames = FALSE,
+      class = "stripe hover"
+    )
+  })
 
     coluna_tabela_map <- list(
       id_bolsista            = "dados_bolsistas",
@@ -283,23 +361,6 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, co
             type = 'message')
     })
 
-
-    output$luzpt <- DT::renderDataTable({
-      df <- dados_luz()
-      req(nrow(df) > 0)
-      DT::datatable(
-        df,
-        filter = 'top',
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
-        ),
-        rownames = FALSE,
-        class = "stripe hover"
-      )
-    })
-
     coluna_tabela_map_luzpt <- list(
       id_beneficiarios   = "luz_ano",
       mes_atendimento    = "luz_ano",
@@ -355,23 +416,6 @@ mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, co
         type = 'message')
     })
 
-
-    output$bolsafamilia <- DT::renderDataTable({
-      df <- dados_bf()
-      req(nrow(df) > 0)
-
-      DT::datatable(
-        df,
-        filter = 'top',
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
-        ),
-        rownames = FALSE,
-        class = "stripe hover"
-      )
-    })
 
     coluna_tabela_map_bolsafm <- list(
       id_familias         = "benef_primeirainfancia",
