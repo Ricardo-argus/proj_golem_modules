@@ -22,6 +22,10 @@ app_server <- function( input, output, session ) {
   # Chama o módulo de filtros e armazena os filtros reativos que ele RETORNA
   filtros_selecionados <- mod_filtros_server("filtros_1", con = con)
 
+  observeEvent(input$refresh_app, {
+    session$sendCustomMessage("refreshApp", "reload")
+  })
+
 
   # --- 3. DADOS REATIVOS
 
@@ -59,8 +63,6 @@ app_server <- function( input, output, session ) {
                 bsf.qtd_ben_bva,
                 bsf.qtd_ben_bv,
                 bsf.qtd_ben_bf,
-                bvs.qtd_ben_bv,
-                bvs.qtd_ben_bva,
                 bvs.qtd_ben_bvbva
               FROM
                 benef_primeirainfancia bp
@@ -123,13 +125,21 @@ app_server <- function( input, output, session ) {
   # Passa os dados filtrados E os filtros selecionados para o módulo de overview
   mod_overview_server("overview_1",
                       dados_filtrados = dadosFiltrados,
-                      filtros_selecionados = filtros_selecionados)
+                      filtros_selecionados = filtros_selecionados,
+                      con = con,
+                      dados_luz = dadosluzpt)
 
   # Passa (apenas) os dados filtrados para o módulo de tabela
   mod_dados_brutos_server("dados_brutos_1",
                           dados_filtrados = dadosFiltrados,
                           dados_luz = dadosluzpt,
-                          dados_bf = dadosbolsafamilia)
+                          dados_bf = dadosbolsafamilia,
+                          con = con)
+
+  mod_contato_mod_server("contatos_1", con = con)
+
+
+  mod_glossario_server("glossario_1")
 
 
 }

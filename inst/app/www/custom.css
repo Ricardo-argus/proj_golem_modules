@@ -1,13 +1,25 @@
 /* --- Tema Escuro Principal (Sidebar e Fundo Geral) --- */
 
-/* Cor de fundo do corpo principal (continua escuro) */
-.content-wrapper, .right-side {
+/* --- Cor de fundo do corpo principal (escuro, exceto aba Dados Completos) --- */
+.content-wrapper:not(.tab-pane#shiny-tab-raw_data),
+.right-side:not(.tab-pane#shiny-tab-raw_data) {
   background-color: #343a40 !important;
 }
 
-/* Cor do texto principal (branco, será sobrescrito na aba de dados) */
+/* --- Cor do texto principal (branco, exceto em abas claras) --- */
 body {
   color: #f8f9fa;
+}
+
+/* --- Estilo para caixa de aviso/modal --- */
+.alert,
+.modal-content,
+.notification,
+.shiny-notification {
+  background-color: #454d55 !important;
+  color: #f8f9fa !important;
+  border: 1px solid #6c757d !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 /* Cor da Sidebar */
@@ -17,7 +29,8 @@ body {
 .sidebar-menu li a {
   color: #f8f9fa;
 }
-.sidebar-menu li.active > a, .sidebar-menu li a:hover {
+.sidebar-menu li.active > a,
+.sidebar-menu li a:hover {
   background: #495057;
   color: #ffffff;
   border-left-color: #007bff;
@@ -41,39 +54,7 @@ body {
   background-color: #495057;
 }
 
-
-/* ============================================= */
-/* === REGRAS PARA TEMA HÍBRIDO (CLARO/ESCURO) === */
-/* ============================================= */
-
-/* --- 1. CABEÇALHO: Logo branco, Navbar escura --- */
-
-/* Fundo do logo (gov.br + PROJETOS) para branco */
-.main-header .logo {
-  background-color: #ffffff !important;
-  color: #333333 !important; /* Cor do texto "PROJETOS" para preto */
-}
-
-/* Manter a navbar (resto do cabeçalho) escura */
-.main-header .navbar {
-  background-color: #343a40 !important;
-}
-
-/* Mudar a cor do botão 'hamburger' para ser visível no fundo escuro da navbar */
-.skin-black .main-header .navbar .sidebar-toggle {
-  color: #cccccc; /* Cor padrão: CINZA CLARO */
-}
-
-/* Regra de hover para o botão */
-.skin-black .main-header .navbar .sidebar-toggle:hover {
-  color: #ffffff; /* Cor ao passar o mouse: BRANCO */
-  background-color: #30363c; /* Fundo ao passar o mouse (escuro) */
-}
-
-
 /* --- 2. ABA "VISÃO GERAL" (GRÁFICOS): Modo Escuro --- */
-
-/* Torna as regras de BOX escuras específicas para a 'Visão Geral' */
 .tab-pane#shiny-tab-overview .box {
   background: #454d55;
   border-top-color: #6c757d;
@@ -100,37 +81,26 @@ body {
   background-color: #218838 !important;
 }
 
-
 /* --- 3. ABA "DADOS COMPLETOS" (TABELA): Modo Claro --- */
-
-/* Regra específica para o fundo da ABA 'Dados Completos' */
 .tab-pane#shiny-tab-raw_data {
-  background-color: #ffffff !important; /* Fundo branco! */
-  color: #333333 !important;      /* Texto preto! */
+  background-color: #ffffff !important;
+  color: #333333 !important;
 }
-
-/* Reseta os 'boxes' dentro da aba 'Dados Completos' para o modo claro */
 .tab-pane#shiny-tab-raw_data .box {
   background: #ffffff !important;
   color: #333333 !important;
-  border-top-color: #3c8dbc; /* Cor 'primary' padrão */
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1); /* Sombra padrão */
+  border-top-color: #3c8dbc;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
-
-/* Reseta o texto (labels, info da tabela, título do box) */
 .tab-pane#shiny-tab-raw_data label,
 .tab-pane#shiny-tab-raw_data .dataTables_wrapper,
 .tab-pane#shiny-tab-raw_data .dataTables_info,
 .tab-pane#shiny-tab-raw_data .box-header .box-title {
   color: #333333 !important;
 }
-
-/* Reseta botões do box */
 .tab-pane#shiny-tab-raw_data .box-header .btn-box-tool {
   color: #555 !important;
 }
-
-/* Reseta os inputs/filtros da tabela DT */
 .tab-pane#shiny-tab-raw_data .dataTables_wrapper input,
 .tab-pane#shiny-tab-raw_data .dataTables_wrapper select,
 .tab-pane#shiny-tab-raw_data .dataTables_wrapper .form-control {
@@ -138,3 +108,15 @@ body {
   background-color: #ffffff !important;
   border: 1px solid #ccc !important;
 }
+
+tags$head(
+  tags$style(HTML("
+    .shiny-text-output, .shiny-input-container {
+      word-wrap: break-word;
+      white-space: normal;
+    }
+    p {
+      text-align: justify;
+    }
+  "))
+)

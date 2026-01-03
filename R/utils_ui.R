@@ -1,4 +1,4 @@
-# footer config
+# footer configuração
 
 utils_footer <- function(){
 
