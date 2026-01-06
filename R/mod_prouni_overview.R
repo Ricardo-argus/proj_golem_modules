@@ -7,7 +7,7 @@
 #' @noRd
 #'
 #' @importFrom shiny NS tagList
-mod_bolsas_overview_ui <- function(id) {
+mod_prouni_overview_ui <- function(id) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -35,7 +35,7 @@ mod_bolsas_overview_ui <- function(id) {
 #' bolsas_overview Server Functions
 #'
 #' @noRd
-mod_bolsas_overview_server <- function(id, dados_filtrados, filtros_selecionados){
+mod_prouni_overview_server <- function(id, dados_filtrados, filtros_selecionados){
   moduleServer(id, function(input, output, session){
     ns <- session$ns
 

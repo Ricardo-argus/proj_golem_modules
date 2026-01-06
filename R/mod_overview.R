@@ -26,7 +26,7 @@ mod_overview_ui <- function(id){
         tabPanel(
           title = "PROUNI",
           icon = icon("chart-line"),
-          mod_bolsas_overview_ui(ns("bolsas")),
+          mod_prouni_overview_ui(ns("bolsas")),
           div(style = "overflow-x: auto;",
               DT::dataTableOutput(ns("PROUNI"))
           )
@@ -72,7 +72,7 @@ mod_overview_server <- function(id, dados_filtrados, filtros_selecionados, con, 
     ns <- session$ns
 
     # SubModules for Each Social Programs
-    mod_bolsas_overview_server("bolsas", dados_filtrados, filtros_selecionados)
+    mod_prouni_overview_server("bolsas", dados_filtrados, filtros_selecionados)
     mod_bolsafamilia_overview_server("bolsafamilia", con)
     mod_luzpt_overview_server("luzpt", con)
 
