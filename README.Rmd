@@ -94,7 +94,7 @@ run_app()
 Este projeto é parte do meu Portfólio, com o objetivo de abordar um tema relevante popular (politicas sociais).
 Você pode entrar em contato diretamente pela aplicação ou via LinkedIn/GitHub 
 1. [LinkedIn](https://www.linkedin.com/in/ricardo-hernandes-05b93218a)
-2. [Github](https://github.com/Ricardo-argus/GOVBR-Social-Programs-Shiny-Dashboard).
+2. [Github](https://www.github.com/Ricardo-argus/GOVBR-Social-Programs-Shiny-Dashboard).
 
 ---
 
