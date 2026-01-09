@@ -18,8 +18,6 @@ app_server <- function( input, output, session ) {
     mod_db_pool_teardown(con)
   })
 
-
-  # Chama o módulo de filtros e armazena os filtros reativos que ele RETORNA
   filtros_selecionados <- mod_filtros_server("filtros_1", con = con)
 
   observeEvent(input$refresh_app, {
@@ -101,7 +99,7 @@ app_server <- function( input, output, session ) {
     data <- dadosCompletos()
     filtros <- filtros_selecionados()
 
-    # Validação para garantir que os filtros estejam prontos
+
     req(filtros)
 
     if (filtros$ano != "Todos") {
@@ -119,16 +117,14 @@ app_server <- function( input, output, session ) {
     data
   })
 
-  #  CHAMADA DOS MÓDULOS DE CONTEÚDO
+  #  Call Content Modules
 
-  # Passa os dados filtrados E os filtros selecionados para o módulo de overview
   mod_overview_server("overview_1",
                       dados_filtrados = dadosFiltrados,
                       filtros_selecionados = filtros_selecionados,
                       con = con,
                       dados_luz = dadosluzpt)
 
-  # Passa (apenas) os dados filtrados para o módulo de tabela
   mod_dados_brutos_server("dados_brutos_1",
                           dados_filtrados = dadosFiltrados,
                           dados_luz = dadosluzpt,
