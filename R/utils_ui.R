@@ -1,7 +1,6 @@
 # footer config
 
 utils_footer <- function(){
-
   tags$footer(
     style = "
     position: fixed;
