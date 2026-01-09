@@ -1,4 +1,4 @@
-# footer configuração
+# footer config
 
 utils_footer <- function(){
 
@@ -16,6 +16,6 @@ utils_footer <- function(){
     border-top: 1px solid #dee2e6;
     z-index: 9999;
     ",
-    tags$b("₢ 2025 Ricardo Hernandes - Shiny Application Brazilian Social Programs")
+    tags$b("₢ 2026 Ricardo Hernandes - Shiny Application Brazilian Social Programs")
   )
 }

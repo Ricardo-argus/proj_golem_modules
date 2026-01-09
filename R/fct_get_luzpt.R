@@ -1,7 +1,7 @@
-#' fct_get_luzpt: Consulta dados do LUZ para todos
+#' fct_get_luzpt: query from Db LUZ para todos
 #'
-#' @param pool Objeto pool::Pool já inicializado
-#' @return data.frame com os resultados da query
+#' @param pool Pool already activated
+#' @return df with query results
 #' @import DBI dplyr
 #' @noRd
 fct_get_luzpt <- function(pool, ano = NULL, uf = NULL) {

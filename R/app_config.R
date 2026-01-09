@@ -6,11 +6,6 @@ app_sys <- function(...) {
 }
 
 
-#' Access files in the current app
-#'
-#' NOTE: If you manually change your config file, you'll need to
-#' re-run build_config().
-#'
 #' @param ... character vectors, specifying subdirectory and file(s)
 #' within your app.
 #'

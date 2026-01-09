@@ -1,17 +1,17 @@
-/* --- Tema Escuro Principal (Sidebar e Fundo Geral) --- */
+/* --- Main Dark Theme (Sidebar and General Background) --- */
 
-/* --- Cor de fundo do corpo principal (escuro, exceto aba Dados Completos) --- */
+/* --- Main content body background color (dark, except for Raw Data tab) --- */
 .content-wrapper:not(.tab-pane#shiny-tab-raw_data),
 .right-side:not(.tab-pane#shiny-tab-raw_data) {
   background-color: #343a40 !important;
 }
 
-/* --- Cor do texto principal (branco, exceto em abas claras) --- */
+/* --- Main text color (white, except in light tabs) --- */
 body {
   color: #f8f9fa;
 }
 
-/* --- Estilo para caixa de aviso/modal --- */
+/* --- Style for alert boxes/modals --- */
 .alert,
 .modal-content,
 .notification,
@@ -22,7 +22,7 @@ body {
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* Cor da Sidebar */
+/* Sidebar Color */
 .main-sidebar {
   background-color: #212529 !important;
 }
@@ -36,7 +36,7 @@ body {
   border-left-color: #007bff;
 }
 
-/* --- Filtros (Sidebar) --- */
+/* --- Filters (Sidebar) --- */
 .selectize-input {
   background-color: #555 !important;
   color: #fff !important;
@@ -54,7 +54,7 @@ body {
   background-color: #495057;
 }
 
-/* --- 2. ABA "VISÃO GERAL" (GRÁFICOS): Modo Escuro --- */
+/* --- 2. "OVERVIEW" TAB (CHARTS): Dark Mode --- */
 .tab-pane#shiny-tab-overview .box {
   background: #454d55;
   border-top-color: #6c757d;
@@ -81,7 +81,7 @@ body {
   background-color: #218838 !important;
 }
 
-/* --- 3. ABA "DADOS COMPLETOS" (TABELA): Modo Claro --- */
+/* --- 3. "RAW DATA" TAB (TABLE): Light Mode --- */
 .tab-pane#shiny-tab-raw_data {
   background-color: #ffffff !important;
   color: #333333 !important;
@@ -109,6 +109,7 @@ body {
   border: 1px solid #ccc !important;
 }
 
+/* UI Logic for text wrapping and paragraph justification */
 tags$head(
   tags$style(HTML("
     .shiny-text-output, .shiny-input-container {

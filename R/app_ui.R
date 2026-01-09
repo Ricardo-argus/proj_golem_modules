@@ -7,7 +7,7 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # gerenciar os recursos externos
+
     golem_add_external_resources(),
 
     dashboardPage(

@@ -1,7 +1,7 @@
-#' fct_get_bolsafm: Consulta dados do Bolsa Família
+#' fct_get_bolsafm: query from DB Bolsa Família
 #'
-#' @param pool Objeto pool::Pool já inicializado
-#' @return data.frame com os resultados da query
+#' @param pool Pool already activated
+#' @return df with Queries result
 #' @import DBI dplyr
 #' @noRd
 fct_get_bolsafm <- function(pool, ano = NULL, uf = NULL) {

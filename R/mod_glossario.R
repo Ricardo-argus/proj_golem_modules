@@ -1,6 +1,6 @@
 #' glossario UI Function
 #'
-#' @description A shiny Module com menu lateral customizado.
+#' @description A shiny Module
 #'
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
@@ -43,6 +43,18 @@ mod_glossario_ui <- function(id) {
         background-color: rgba(0,123,255,0.6);
         font-weight: bold;
       }
+
+        p {
+          font-size: 18px;
+          line-height: 1.6;
+        }
+
+        h2{
+        text-align: center;
+        font-size: 26px;
+        font-weight: bold;
+        }
+
       .glossario-conteudo {
         flex-grow: 1;
         padding: 30px;
@@ -89,8 +101,14 @@ mod_glossario_server <- function(id) {
     output$conteudo_glossario <- renderUI({
       switch(selected(),
              "PROUNI" = tagList(
-               h3("Programa Universidade para Todos"),
-               p("Oferece bolsas de estudo em instituições privadas para estudantes de baixa renda."),
+               h2("Programa Universidade para Todos"),
+               br(),
+               p("O Programa Universidade para Todos (PROUNI) é uma iniciativa do governo federal brasileiro criada em 2004 com o objetivo de ampliar o acesso ao ensino superior. Ele concede bolsas de estudo integrais e parciais em instituições privadas de educação superior para estudantes de baixa renda, que tenham cursado o ensino médio em escolas públicas ou como bolsistas integrais em escolas particulares. O PROUNI se consolidou como uma das principais políticas públicas voltadas à democratização da educação, permitindo que milhares de jovens ingressem em cursos de graduação que, de outra forma, seriam financeiramente inacessíveis"),
+               p("A função central do PROUNI é promover inclusão social por meio da educação, oferecendo oportunidades para que estudantes em situação de vulnerabilidade econômica possam se qualificar profissionalmente. Além das bolsas, o programa também exige que as instituições participantes cumpram critérios de qualidade e mantenham avaliações positivas nos indicadores oficiais de ensino. Dessa forma, o PROUNI não apenas amplia o acesso, mas também garante que os beneficiários tenham uma formação consistente e reconhecida no mercado de trabalho."),
+               p("A importância do PROUNI vai além da dimensão individual, pois contribui para o desenvolvimento social e econômico do país. Ao possibilitar que mais pessoas tenham acesso ao ensino superior, o programa fortalece a formação de profissionais em diversas áreas, reduz desigualdades e promove mobilidade social. No contexto deste trabalho, ao final será apresentado um glossário com os termos utilizados na tabela do data table construída em R, para facilitar a compreensão dos conceitos técnicos empregados.
+"),
+               br(),
+
                div(class = 'white-box texto-centralizado',
                    p(strong("MODALIDADE DE ENSINO")),   # título em negrito
                    p("Modalidade de ensino em uma faculdade é o formato pelo qual o curso é oferecido — presencial, semipresencial ou a distância (EaD). Cada modalidade define como as aulas acontecem, a carga horária presencial e online, e o nível de flexibilidade para o estudante."),
@@ -102,8 +120,13 @@ mod_glossario_server <- function(id) {
                )
              ),
              "BOLSA FAMILIA" = tagList(
-               h3("Programa Bolsa Família"),
-               p("Transferência de renda para famílias em situação de pobreza e extrema pobreza."),
+               h2("Programa Bolsa Família"),
+               br(),
+               p("O Programa Bolsa Família é uma política pública brasileira criada em 2003 com o objetivo de combater a pobreza e a desigualdade social. Ele consiste na transferência direta de renda para famílias em situação de vulnerabilidade econômica, especialmente aquelas com crianças e adolescentes. O benefício é condicionado ao cumprimento de compromissos nas áreas de saúde e educação, como a frequência escolar e a vacinação, garantindo que o apoio financeiro esteja associado ao desenvolvimento social das famílias atendidas."),
+               p("A função principal do Bolsa Família é assegurar uma renda mínima que contribua para a sobrevivência digna das famílias mais pobres, ao mesmo tempo em que promove inclusão social. O programa atua como uma rede de proteção, reduzindo os impactos da pobreza extrema e incentivando o acesso a serviços básicos. Além disso, ao exigir contrapartidas, o Bolsa Família fortalece políticas públicas integradas, estimulando a permanência das crianças na escola e o acompanhamento da saúde familiar."),
+               p("A importância do Bolsa Família é reconhecida tanto no âmbito nacional quanto internacional, por seus resultados na redução da desigualdade e na melhoria dos indicadores sociais. Ele contribui para a diminuição da insegurança alimentar, para o aumento da escolarização e para a quebra do ciclo de pobreza entre gerações. No contexto deste trabalho, ao final será apresentado um glossário com os termos utilizados na tabela do data table construída em R, para facilitar a compreensão dos conceitos técnicos empregados.
+"),
+               br(),
                div(class = 'white-box texto-centralizado',
                    p(strong("CODIGO IBGE")),   # título em negrito
                    p("é um número único atribuído pelo Instituto Brasileiro de Geografia e Estatística a cada município do Brasil.
@@ -212,8 +235,13 @@ Permite avaliar políticas voltadas à permanência escolar.
                )
              ),
              "LUZ PARA TODOS" = tagList(
-               h3("Programa Luz Para Todos"),
-               p("Leva energia elétrica a comunidades rurais e regiões isoladas."),
+               h2("Programa Luz Para Todos"),
+               br(),
+               p("O programa Luz para Todos foi criado em 2003 pelo governo federal brasileiro com a missão de universalizar o acesso à energia elétrica nas áreas rurais e regiões mais isoladas do país. A iniciativa surgiu para atender comunidades que viviam sem eletricidade, especialmente em zonas de difícil acesso, promovendo inclusão social e melhorando a qualidade de vida de milhões de brasileiros. Desde sua criação, o programa se tornou um marco na política de infraestrutura e cidadania, levando energia a locais antes esquecidos pelo desenvolvimento."),
+               p("A função central do Luz para Todos é garantir que famílias residentes em áreas rurais tenham acesso a um serviço essencial, que possibilita avanços em saúde, educação, segurança e geração de renda. A chegada da energia elétrica permite, por exemplo, o uso de equipamentos domésticos, o armazenamento adequado de alimentos e medicamentos, além de favorecer atividades produtivas como irrigação e beneficiamento agrícola. Dessa forma, o programa não apenas ilumina casas, mas também abre caminho para novas oportunidades de crescimento econômico e social."),
+               p("A importância do Luz para Todos está na transformação que promove ao reduzir desigualdades regionais e ampliar direitos básicos. Ao levar energia elétrica a milhões de pessoas, o programa fortalece a cidadania e contribui para o desenvolvimento sustentável das comunidades atendidas. No contexto deste trabalho, ao final será apresentado um glossário com os termos utilizados na tabela do data table construída em R, para facilitar a compreensão dos conceitos técnicos empregados.
+"),
+               br(),
                div(class = 'white-box texto-centralizado',
                    p(strong("ANO DE HOMOLOGAÇÃO")),   # título em negrito
                    p("É o ano em que o atendimento do programa foi oficialmente validado e registrado,

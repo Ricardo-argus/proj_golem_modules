@@ -2,7 +2,7 @@
 % Please edit documentation in R/mod_db_pool.R
 \name{mod_db_pool_teardown}
 \alias{mod_db_pool_teardown}
-\title{mod_db_pool_teardown: Encerra o pool de conexão}
+\title{mod_db_pool_teardown: End Pool Connection}
 \usage{
 mod_db_pool_teardown(pool)
 }
@@ -10,5 +10,5 @@ mod_db_pool_teardown(pool)
 \item{pool}{Objeto pool::Pool}
 }
 \description{
-mod_db_pool_teardown: Encerra o pool de conexão
+mod_db_pool_teardown: End Pool Connection
 }
