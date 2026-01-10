@@ -1,9 +1,8 @@
 #' mod_dados_brutos UI Function
 #'
-#' @description UI para a aba de Dados Completos (Tabela DT).
-#' @param id O ID interno do Shiny para este módulo.
+#' @description UI for tab Dados Completos.
+#' @param id Intern Id from Shiny for this Module
 #' @import shiny
-#' @import DT
 #' @noRd
 mod_dados_brutos_ui <- function(id){
   ns <- NS(id)
@@ -12,128 +11,54 @@ mod_dados_brutos_ui <- function(id){
       box(
         title = "Dados Consolidados dos Beneficiários", status = "primary", solidHeader = TRUE,
         width = 12,
-
         tabsetPanel(
           id = ns("tabset_dados"),
-
-          tabPanel(
-            title = "PROUNI",
-            icon = icon("table"),
-
-            fluidRow(
-              column(4,
-            selectInput(ns("uf"), "Selecione a UF: ", choices = c("Todos","AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO",
-                                                                  "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI",
-                                                                  "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"),
-                        selected = "Todos"
-              )
-            ),
-
-              column(4,
-                     selectInput(ns("raca"), "Raça do Beneficiário: ", choices = c("Todas","Branca", "Parda", "Preta", "Amarela", "Nao Informada", "Indigena"),
-                                 selected = "Todas"
-                    )
-                  )
-                ),
-
-            DT::dataTableOutput(ns("PROUNI"))
-
-          ),
-
-            tabPanel(
-              title = "BOLSA FAMÍLIA",
-              icon = icon("table"),
-
-              DT::dataTableOutput(ns("bolsafamilia")),
-            ),
-
-            tabPanel(
-            title = "Luz Para Todos",
-            icon = icon("table"),
-            DT::dataTableOutput(ns("luzpt"))
-
-          ),
-
-          )
-
+          tabPanel("PROUNI", icon=icon("table"), mod_dados_prouni_ui(ns("prouni"))),
+          tabPanel("Bolsa Família", icon=icon("table"), mod_dados_bolsafamilia_ui(ns("bolsafamilia"))),
+          tabPanel("Luz Para Todos", icon=icon("table"), mod_dados_luzpt_ui(ns("luzpt")))
         )
-    )
+      )
+    ),
+
+    # adjust Selectizeinput dropdown view
+    tags$style(HTML("
+      .selectize-dropdown-content {
+        max-height: 400px !important;
+        overflow-y: auto !important;
+        background-color: white !important;
+        color: black !important;
+        z-index: 9999 !important;
+      }
+      .selectize-input {
+        background-color: white !important;
+        color: black !important;
+      }
+      .selectize-dropdown [data-selectable] {
+        color: black !important;
+      }
+    ")),
+
+    tags$style(HTML("
+  body {
+    margin-bottom: 50px;
+  }
+"))
   )
 }
 #' mod_dados_brutos Server Function
 #'
-#' @description Server para a aba de Dados Completos.
-#' @param id O ID interno do Shiny para este módulo.
-#' @param dados_filtrados Um reativo com os dados já filtrados.
+#' @description Server For Dados Brutos tab
+#' @param id Intern Id from Shiny
+#' @param dados_filtrados Reactive data FROM PROUNI
+#' @param dados_luz Reactive data FROM Luz Para Todos
+#' @param dados_bf Reactive data FROM Bolsa Família
+#' @param con Database Connection
 #' @import shiny
-#' @import DT
-#' @import dplyr
 #' @noRd
-mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf){
-  moduleServer( id, function(input, output, session){
-    ns <- session$ns
-
-    output$PROUNI <- DT::renderDataTable({
-      df <- dados_filtrados()
-      req(nrow(df) > 0)
-
-      df_filtrado <- df
-
-      if(input$uf != "Todos"){
-        df_filtrado <- df_filtrado %>% filter(UF_BENEFICIARIO == input$uf)
-      }
-
-      if(input$raca != "Todas"){
-        df_filtrado <- df_filtrado %>% filter(RACA_BENEFICIARIO == input$raca)
-      }
-
-
-      DT::datatable(
-        df_filtrado,
-        filter = 'top',
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
-        ),
-        rownames = FALSE,
-        class = "stripe hover"
-      )
-    })
-
-    output$luzpt <- DT::renderDataTable({
-      df <- dados_luz()
-      req(nrow(df) > 0)
-      DT::datatable(
-        df,
-        filter = 'top',
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
-        ),
-        rownames = FALSE,
-        class = "stripe hover"
-      )
-    })
-
-
-    output$bolsafamilia <- DT::renderDataTable({
-      df <- dados_bf()
-      req(nrow(df) > 0)
-
-      DT::datatable(
-        df,
-        filter = 'top',
-        options = list(
-          pageLength = 10,
-          scrollX = TRUE,
-          language = list(url = '//cdn.datatables.net/plug-ins/1.10.25/i18n/Portuguese-Brasil.json')
-        ),
-        rownames = FALSE,
-        class = "stripe hover"
-      )
-    })
-
+mod_dados_brutos_server <- function(id, dados_filtrados, dados_luz, dados_bf, con){
+  moduleServer(id, function(input, output, session){
+    mod_dados_prouni_server("prouni", dados_filtrados, con)
+    mod_dados_bolsafamilia_server("bolsafamilia", dados_bf, con)
+    mod_dados_luzpt_server("luzpt", dados_luz, con)
   })
 }

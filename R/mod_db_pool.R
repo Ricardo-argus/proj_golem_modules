@@ -1,6 +1,5 @@
-#' mod_db_pool_init: Inicializa o pool de conexão com o banco
-#'
-#' @param config_path Caminho para o arquivo golem-config.yml
+#' mod_db_pool_init: Database Connection
+#' @param config_path Path for file golem-config.yml
 #' @return Objeto pool::Pool
 
 mod_db_pool_init <- function(config_path = "inst/golem-config.yml"){
@@ -21,7 +20,7 @@ mod_db_pool_init <- function(config_path = "inst/golem-config.yml"){
 }
 
 
-#' mod_db_pool_teardown: Encerra o pool de conexão
+#' mod_db_pool_teardown: End Pool Connection
 #'
 #' @param pool Objeto pool::Pool
 mod_db_pool_teardown <- function(pool) {

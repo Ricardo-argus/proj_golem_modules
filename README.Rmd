@@ -1,0 +1,110 @@
+---
+title: "GOVBR Brazilian Social Programs Shiny Dashboard"
+author: "Ricardo"
+date: "2026-01-09"
+output: html_document
+---
+
+# GOVBR Dashboard - Aplicativo Shiny para Programas Sociais Brasileiros
+
+Este projeto é uma aplicação web interativa desenvolvida com o framework `{golem}` em R, com o objetivo de promover transparência e facilitar o acesso aos dados de programas sociais brasileiros, como PROUNI, Bolsa Família e Luz Para Todos.
+
+A aplicação permite explorar estatísticas, visualizar gráficos, consultar dados tabulares e interagir com filtros dinâmicos. Também oferece funcionalidades de edição de dados, glossário explicativo e formulário de contato.
+
+Vale Ressaltar que os dados são amostras extraídas de arquivos CSV publicados pelo [Dados Abertos](https://dados.gov.br/home)
+
+---
+
+##  Estrutura do Projeto
+
+O projeto segue a arquitetura modular do `{golem}`, com separação clara entre UI, server e módulos funcionais:
+
+## Inicialização da Aplicação
+
+```R
+renv::restore()
+golem::run_dev()
+```
+
+### PRINCIPAIS MODULOS:
+
+| Módulo | Descrição | Impacto|
+|:-------|:----------|:------------------------|
+|**Mod_dados_brutos**| Renderiza as tabelas com os dados de cada programa social, há opções de filtragem,<br> alteração e gravação no Banco de dados| Alto
+|**Mod_overview**|Renderiza gráficos e indicadores da aba Visão Geral, com consultas e manipulação via dplyr package| Alto
+|**Mod_db_pool**|Variaveis de conexão com Banco de dados, abertura e fechamento do banco via pool package| Alto
+|**Mod_glossario**|CSS,Estilização da Tab Glossário do Dashboard SideBar, renderiza os comentários e organiza as seções de cada Tema| Médio
+|**Mod_contato_mod**|CSS,Estilização da Tab Contato do Dashboard SideBar, Permite o Preenchimento do Formulário de visitantes e a visualização da ideia do projeto e informações para contato    | Médio
+
+### FUNÇÕES UTILIZADAS:
+
+| Funções | Descrição | Impacto
+| :--------|:----------|:-------|
+|**fct_get_bolsafm**|Armazena as Queries para plotagem dos valuebox e Graficos do (Mod_overview) para o Programa Social Bolsa Família| Alto
+|**fct_get_luzpt**|Armazena as Queries para plotagem dos valuebox e Graficos do (Mod_overview) para o Programa Social Luz Para Todos| Alto
+
+---
+
+### Arquivos de Orquestração
+| Arquivo | Descrição | Impacto|
+|:-------|:----------|:------------------------|
+|**run_app**| Inicia a aplicação Shiny via golem| Alto
+|**app_ui**|Define a interface visual da aplicação| Alto
+|**app_server**|Define a lógica reativa e integração dos módulos| Alto
+
+### Arquivos de Configuração
+
+| Arquivo | Descrição | Impacto|
+|:-------|:----------|:------------------------|
+|**golem-config**|Define parâmetros globais da aplicação| Alto
+|**DESCRIPTION**|Define dependências e informações do projeto| Alto
+|**NAMESPACE**|Controla quais funções são visíveis externamente| Alto
+|**renv.lock**|Garante reprodutibilidade com renv (snapshot de pacotes, updates e upload| Alto
+
+
+
+##  Funcionalidades
+
+- **Visualização de dados** dos programas PROUNI, Bolsa Família e Luz Para Todos
+- **Filtros interativos** por ano, estado (UF), universidade, raça, tipo de bolsa e modalidade de ensino
+- **Gráficos dinâmicos** com distribuição demográfica e educacional
+- **Tabelas interativas** com renderização via `{DT}`
+- **Edição de dados** com seleção de ID, coluna e novo valor
+- **Glossário técnico** explicando os termos utilizados
+- **Formulário de contato** com envio direto via interface
+- **Estilização personalizada** com CSS, HTML e interações com JavaScript
+- **Reprodutibilidade garantida** com `{renv}`
+
+---
+
+## ️ Tecnologias Utilizadas
+
+- R + Shiny
+- Framework `{golem}` para arquitetura modular
+- `{DT}`, `{ggplot2}`, `{dplyr}`, `{shinyWidgets}` e outros pacotes
+- `{renv}` para versionamento e reprodutibilidade
+- Banco de dados com integração CRUD (Create, Read, Update, Delete)
+- HTML, CSS e JavaScript para frontend
+
+---
+
+# Contato
+
+Este projeto é parte do meu Portfólio, com o objetivo de abordar um tema relevante popular (politicas sociais).
+Você pode entrar em contato diretamente pela aplicação ou via LinkedIn/GitHub 
+1. [LinkedIn](https://www.linkedin.com/in/ricardo-hernandes-05b93218a)
+2. [Github](https://www.github.com/Ricardo-argus/GOVBR-Social-Programs-Shiny-Dashboard).
+
+---
+
+# Licença
+
+**MIT** 
+
+
+--- 
+
+# Contribuições
+
+Contribuições são bem-vindas! Entre em contato comigo para que possamos debater ideias e melhorias de projetos.
+

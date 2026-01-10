@@ -2,16 +2,16 @@
 % Please edit documentation in R/mod_db_pool.R
 \name{mod_db_pool_init}
 \alias{mod_db_pool_init}
-\title{mod_db_pool_init: Inicializa o pool de conexão com o banco}
+\title{mod_db_pool_init: Database Connection}
 \usage{
 mod_db_pool_init(config_path = "inst/golem-config.yml")
 }
 \arguments{
-\item{config_path}{Caminho para o arquivo golem-config.yml}
+\item{config_path}{Path for file golem-config.yml}
 }
 \value{
 Objeto pool::Pool
 }
 \description{
-mod_db_pool_init: Inicializa o pool de conexão com o banco
+mod_db_pool_init: Database Connection
 }

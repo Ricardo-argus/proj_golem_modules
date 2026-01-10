@@ -7,7 +7,7 @@
 #' @noRd
 app_ui <- function(request) {
   tagList(
-    # gerenciar os recursos externos
+
     golem_add_external_resources(),
 
     dashboardPage(
@@ -36,8 +36,23 @@ app_ui <- function(request) {
 
         hr(),
 
-        #Call module for filters
         mod_filtros_ui("filtros_1"),
+
+        div(
+          style = "display: flex; justify-content: center; margin-top: 10px;",
+          actionButton("refresh_app",
+                     label = NULL,
+                     icon = icon("sync-alt"),
+                     style = "
+                      background-color: #343a40;
+                          color: white;
+                          border: none;
+                          border-radius: 6px;
+                          padding: 6px 12px;
+                          font-size: 14px;
+                        ",
+          )
+        ),
 
         hr(),
 
@@ -71,7 +86,11 @@ app_ui <- function(request) {
       .box.box-solid.box-primary {
         border: 1px solid #4682B4 !important;
       }
-    "))
+    ")),
+          tags$script(HTML("Shiny.addCustomMessageHandler('refreshApp', function(message) {
+                           location.reload();
+                           });
+                           "))
         ),
         tagList(
           tabItems(

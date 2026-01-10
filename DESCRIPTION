@@ -1,9 +1,9 @@
 Package: proj_golem
-Title: Dashboard de Análise de Bolsas do Prouni
+Title: Dashboard de Análise de Programas Sociais GOVBR
 Version: 0.0.0.9000
 Author: Ricardo Hernandes
 Maintainer: Ricardo Hernandes <ricardo_shs615@outlook.com>
-Description: Um dashboard interativo para visualizar e analisar dados de bolsas do Prouni,
+Description: Um dashboard interativo para visualizar e analisar dados de Programas Sociais como PROUNI, Bolsa Familia e Luz Para Todos,
     com filtros dinâmicos e visualizações de dados.
 License: What license is it under?
 Encoding: UTF-8

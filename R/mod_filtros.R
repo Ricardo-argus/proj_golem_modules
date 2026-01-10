@@ -1,6 +1,6 @@
 #' mod_filtros UI Function
 #'
-#' @description UI para os filtros da sidebar.
+#' @description UI for Side Bar Filters
 #' @param id O ID interno do Shiny para este módulo.
 #' @import shiny
 #' @noRd
