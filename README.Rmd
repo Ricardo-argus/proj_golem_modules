@@ -61,7 +61,15 @@ golem::run_dev()
 |**NAMESPACE**|Controla quais funções são visíveis externamente| Alto
 |**renv.lock**|Garante reprodutibilidade com renv (snapshot de pacotes, updates e upload| Alto
 
+# Diagrama de Estrutura: Modulos e Arquivos de Orquestração
 
+1 - Sequence diagram
+```mermaid
+sequenceDiagram
+App_ui ->> mod_dados_brutos
+App_ui ->> mod_overview
+app_server ->> mod_overview
+mod_dados_brutos ->> mod_dados_bolsafamilia
 
 ##  Funcionalidades
 
